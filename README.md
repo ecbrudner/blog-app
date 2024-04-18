@@ -1,5 +1,6 @@
 # blog-app
-[Deployed Application Link]()
+[Deployed Application Link](https://coding-diaries-fb9e0d25593b.herokuapp.com/)
+![coding-diaries-fb9e0d25593b herokuapp com_](https://github.com/ecbrudner/note-taker/assets/148579054/11575714-f224-4cd6-be45-ce2dc41f18b3)
 
 ## Description
 
