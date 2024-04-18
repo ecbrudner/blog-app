@@ -1,10 +1,11 @@
+<div class="dashboard-container">
 {{#each posts as |post|}}
 <div class="row mb-4 project">
     <div class="col-md-5">
         <h2>
             <a href ="/blogpost/{{post.id}}">{{post.title}}</a>
         </h2>
-        <p>Posted on {{post.date_created}}</p>
+        <p>Posted on {{format_date post.date_created}}</p>
     </div>
     <div class="col-md-7>">
         <p>
@@ -15,5 +16,6 @@
 {{/each}}
 
 <div class="form-group">
-    <a href="/newpost" class="btn btn-primary">Create New Post</a>
+    <a href="/newpost" class="btn btn-primary new-post-link">Create New Post</a>
+</div>
 </div>
