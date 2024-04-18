@@ -1,11 +1,11 @@
 <div class="text-center">
     <div class="col-md-5">
-        <h2>{{title}}</h2>
-        <p>Posted by {{username}} on {{date_created}}</p>
+        <h2>{{post.title}}</h2>
+        <p>Posted by {{post.user.username}} on {{post.date_created}}</p>
    </div>
     <div class="col-md-7">
         <p>
-            {{content}}
+            {{post.content}}
         </p>
     </div>
     <div class="form-group">

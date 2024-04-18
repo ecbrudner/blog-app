@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-6">
+        <h2>Edit Post</h2>
+        <form class="form edit-form">
+            <input type="hidden" id="post-id" value="{{post.id}}" />
+            <div class="form-group">
+                <label for="post-title">Title</label>
+                <input class="form-input" type="text" id="post-title" placeholder="{{post.title}}" />
+            </div>
+            <div class="form-group">
+                <label for="post-content">Content</label>
+                <input class="form-input" type="text" id="post-content" placeholder="{{post.content}}" />
+            </div>
+            <div class="form-group update-post">
+                <button class="btn btn-primary" type="submit">Update Post</button>
+            </div>
+            <div class="form-group delete">
+                <button class="btn btn-primary" type="button">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/dashboard.js"></script>

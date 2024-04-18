@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Post, User }= require('../models');
-
+const auth = require('../utils/auth');
 
 //GET all existing blogs
 router.get('/', async (req, res) => {
@@ -32,17 +32,24 @@ router.get('/blogpost/:id', async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['username'],
+                    attributes: ['id','username'],
                 },
             ],
         });
-
+        //if post user_id equals req.session.user_id, render mypost handlebars
         const post = postData.get({ plain: true });
+        if (post.user_id === req.session.user_id) {
+            res.render('mypost', {
+                post,
+                logged_in: req.session.logged_in
+            });
+        } else {
+            res.render('blogpost', {
+                post,
+                logged_in: req.session.logged_in
+            });
+        }
 
-        res.render('blogpost', {
-            ...post,
-            logged_in: req.session.logged_in
-        });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -50,25 +57,18 @@ router.get('/blogpost/:id', async (req, res) => {
     
 
 //GET my blogposts
-router.get('/dash', async (req, res) => {
+router.get('/dash', auth, async (req, res) => {
     try {
-        const postData = await Post.findAll({
-            where: {
-                user_id: req.session.user_id
-            },
-            include: [
-                {
-                    model: User,
-                    attributes: ['username'],
-                },
-            ],
+        const userData = await User.findByPk(req.session.user_id, {
+            attributes: { exclude: ['password'] },
+            include: [{ model: Post }],
         });
 
-        const posts = postData.map((post) => post.get({ plain: true }));
+        const user = userData.get({ plain: true });
 
         res.render('dashboard', {
-            posts,
-            logged_in: req.session.logged_in
+            ...user,
+            logged_in: true
         });
     } catch (err) {
         res.status(500).json(err);
@@ -91,6 +91,25 @@ router.get('/signup', (req, res) => {
         return;
     }
     res.render('signup');
+});
+
+//GET new post
+router.get('/newpost', auth, async (req, res) => {
+    try {
+        const userData = await User.findByPk(req.session.user_id, {
+            attributes: { exclude: ['password'] },
+            include: [{ model: Post }],
+        });
+
+        const user = userData.get({ plain: true });
+
+        res.render('newpost', {
+            ...user,
+            logged_in: true
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 });
 
 module.exports = router;
