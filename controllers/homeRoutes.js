@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, User }= require('../models');
+const { Post, User, Comment}= require('../models');
 const auth = require('../utils/auth');
 
 //GET all existing blogs
@@ -34,6 +34,15 @@ router.get('/blogpost/:id', async (req, res) => {
                     model: User,
                     attributes: ['id','username'],
                 },
+                {
+                    model: Comment,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['id','username'],
+                        }
+                    ]
+                }
             ],
         });
         //if post user_id equals req.session.user_id, render mypost handlebars

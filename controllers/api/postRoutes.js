@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
+const { Post, Comment } = require('../../models');
 const auth = require('../../utils/auth');
 
 //post new blog
@@ -59,6 +59,26 @@ router.delete('/:id', auth, async (req, res) => {
         res.status(200).json(postData);
     } catch (err) {
         res.status(500).json(err);
+    }
+});
+
+//post new comment
+router.post('/posts/:post_id/comments', auth, async (req, res) => {
+    try {
+        console.log("received post request", req.body);
+
+        const newComment = await Comment.create({
+            ...req.body,
+            user_id: req.session.user_id,
+            post_id: req.params.post_id,
+        });
+
+        console.log("new comment created:",newComment);
+
+        res.status(200).json(newComment);
+    } catch (err) {
+        console.error('error posting comment:', err);
+        res.status(500).json({ message: 'Failed to post comment' });
     }
 });
 
